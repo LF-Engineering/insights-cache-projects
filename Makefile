@@ -24,3 +24,6 @@ build-win: deps
 build: clean deps
 	GOOS=linux GOARCH=amd64 go build -o bin/$(SERVICE) -a $(LDFLAGS) .
 
+docker-build:
+	docker build -t insights-cache .
+
