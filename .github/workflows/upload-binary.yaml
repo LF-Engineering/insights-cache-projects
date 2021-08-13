@@ -28,7 +28,7 @@ jobs:
       #     name: insights-cache-projects-test
       #     path: ./bin
       - uses: actions/upload-artifact@main
-        if: $GITHUB_EVENT_NAME == 'push'
+        if: github.event_name == 'push'
         with:
           name: insights-cache-projects-test
           path: ./bin
