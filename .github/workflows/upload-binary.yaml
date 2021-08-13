@@ -1,6 +1,8 @@
 on: 
   push:
   release:
+    types:
+      - "published"
   pull_request:
     branches:
     - main
