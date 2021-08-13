@@ -22,8 +22,13 @@ jobs:
           version: v1.29
       - name: Run Build
         run: make build
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@main
+      # - name: Upload Artifacts
+      #   uses: actions/upload-artifact@main
+      #   with:
+      #     name: insights-cache-projects-test
+      #     path: ./bin
+      - uses: actions/upload-artifact@main
+        if: $GITHUB_EVENT_NAME == 'push'
         with:
           name: insights-cache-projects-test
           path: ./bin
