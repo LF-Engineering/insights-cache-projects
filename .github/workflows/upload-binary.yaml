@@ -1,13 +1,7 @@
 on: 
   push:
     tags:
-      - 'v*'
-  release:
-    types:
-      - "published"
-  pull_request:
-    branches:
-    - main
+      - 'v*.*.*'
 
 name: Publish Binary
 jobs:
@@ -27,14 +21,16 @@ jobs:
       - name: Run Build
         run: make build
       - uses: actions/upload-artifact@main
-        name: Upload Artifact - Test
-        if: github.event_name == 'push'
+        name: Upload Artifact
         with:
-          name: insights-cache-projects-test
+          name: insights-cache-projects
           path: ./bin
-      - uses: actions/upload-artifact@main
-        name: Upload Artifact - Prod
-        if: github.event_name == 'release'
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: insights-cache-projects-prod
-          path: ./bin
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./bin/insights-cache-projects
+          asset_name: insights-cache-projects
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "This is my release text"
