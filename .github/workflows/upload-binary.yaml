@@ -1,0 +1,35 @@
+on: 
+  push:
+    tags:
+      - 'v*.*.*'
+
+name: Publish Binary
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15.x
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.29
+      - name: Run Build
+        run: make build
+      - uses: actions/upload-artifact@main
+        name: Upload Artifact
+        with:
+          name: insights-cache-projects
+          path: ./bin
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./bin/insights-cache-projects
+          asset_name: insights-cache-projects
+          tag: ${{ github.ref }}
+          overwrite: true
