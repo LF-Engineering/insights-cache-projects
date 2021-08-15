@@ -33,4 +33,4 @@ jobs:
           asset_name: insights-cache-projects
           tag: ${{ github.ref }}
           overwrite: true
-          body: "This is my release text"
+          
